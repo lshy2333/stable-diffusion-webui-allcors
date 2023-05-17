@@ -241,13 +241,12 @@ def setup_middleware(app):
     app.middleware_stack = None # reset current middleware to allow modifying user provided list
     app.add_middleware(GZipMiddleware, minimum_size=1000)
     if cmd_opts.cors_allow_origins and cmd_opts.cors_allow_origins_regex:
-        app.add_middleware(CORSMiddleware, allow_origins=cmd_opts.cors_allow_origins.split(','), allow_origin_regex=cmd_opts.cors_allow_origins_regex, allow_methods=['*'], allow_credentials=True, allow_headers=['*'])
+        app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_origin_regex=cmd_opts.cors_allow_origins_regex, allow_methods=['*'], allow_credentials=True, allow_headers=['*'])#allow_origins=cmd_opts.cors_allow_origins.split(',')
     elif cmd_opts.cors_allow_origins:
-        app.add_middleware(CORSMiddleware, allow_origins=cmd_opts.cors_allow_origins.split(','), allow_methods=['*'], allow_credentials=True, allow_headers=['*'])
+        app.add_middleware(CORSMiddleware, allow_origins=['*'], allow_methods=['*'], allow_credentials=True, allow_headers=['*'])#allow_origins=cmd_opts.cors_allow_origins.split(',')
     elif cmd_opts.cors_allow_origins_regex:
-        app.add_middleware(CORSMiddleware, allow_origin_regex=cmd_opts.cors_allow_origins_regex, allow_methods=['*'], allow_credentials=True, allow_headers=['*'])
+        app.add_middleware(CORSMiddleware, allow_origin_regex='.*', allow_methods=['*'], allow_credentials=True, allow_headers=['*'])#allow_origin_regex=cmd_opts.cors_allow_origins_regex
     app.build_middleware_stack() # rebuild middleware stack on-the-fly
-
 
 def create_api(app):
     from modules.api.api import Api
